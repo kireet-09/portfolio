@@ -39,8 +39,14 @@ hamburger.addEventListener('click', () => {
     // Toggle body scroll when menu is open/closed
     if (navLinksContainer.classList.contains('active')) {
         document.body.style.overflow = 'hidden';
+        // Add scrolled class to header when menu is open to make hamburger visible
+        header.classList.add('scrolled');
     } else {
         document.body.style.overflow = '';
+        // Remove scrolled class if we're at the top of the page
+        if (window.scrollY <= 50) {
+            header.classList.remove('scrolled');
+        }
     }
 });
 
@@ -50,6 +56,11 @@ navLinks.forEach(link => {
         hamburger.classList.remove('active');
         navLinksContainer.classList.remove('active');
         document.body.style.overflow = ''; // Restore scrolling
+        
+        // Remove scrolled class if we're at the top of the page
+        if (window.scrollY <= 50) {
+            header.classList.remove('scrolled');
+        }
     });
 });
 
