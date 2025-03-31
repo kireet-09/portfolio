@@ -372,6 +372,10 @@ section {
     transition: var(--transition);
     position: relative;
     height: 100%;
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+    overflow: visible !important;
 }
 
 .project-card:hover {
@@ -381,6 +385,7 @@ section {
 
 .project-info {
     padding: 25px;
+    transform-style: preserve-3d;
 }
 
 .project-info h3 {
@@ -900,6 +905,18 @@ section {
     .achievement-item {
         min-width: 100%;
     }
+    
+    .hero-background {
+        opacity: 0.5;
+    }
+    
+    .project-card {
+        transform: none !important;
+    }
+    
+    .project-info {
+        transform: none !important;
+    }
 }
 
 @media screen and (max-width: 576px) {
@@ -1011,4 +1028,226 @@ section {
 
 .projects-grid .project-card:nth-child(6) {
     animation-delay: 1s;
+}
+
+/* ===== 3D ANIMATIONS ===== */
+.hero {
+    position: relative;
+}
+
+.hero-background {
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+}
+
+/* 3D Project Cards */
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, var(--primary), transparent);
+    opacity: 0;
+    transition: all 0.5s;
+    transform: translateZ(-10px);
+    border-radius: 10px;
+    pointer-events: none;
+}
+
+.project-card:hover::before {
+    opacity: 0.2;
+}
+
+.project-info {
+    transform-style: preserve-3d;
+}
+
+/* Skill Cubes */
+.skill-cube-container {
+    transform-style: preserve-3d;
+}
+
+.skill-cube {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Responsive adjustments for 3D elements */
+@media screen and (max-width: 768px) {
+    .hero-background {
+        opacity: 0.5;
+    }
+    
+    .project-card {
+        transform: none !important;
+    }
+    
+    .project-info {
+        transform: none !important;
+    }
+}
+
+/* ===== LOADING SCREEN ===== */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--dark-bg);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#loading-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loading-content {
+    text-align: center;
+    max-width: 400px;
+    padding: 30px;
+}
+
+.loading-logo {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+    animation: pulse 1.5s infinite;
+}
+
+.loading-spinner {
+    margin: 20px auto;
+    width: 60px;
+    height: 60px;
+    perspective: 600px;
+}
+
+.cube-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: spin 2.5s infinite linear;
+}
+
+.cube {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+}
+
+.cube-face {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-color: var(--primary);
+    opacity: 0.8;
+    border-radius: 4px;
+}
+
+.cube-face.front {
+    transform: translateZ(30px);
+}
+
+.cube-face.back {
+    transform: rotateY(180deg) translateZ(30px);
+}
+
+.cube-face.right {
+    transform: rotateY(90deg) translateZ(30px);
+}
+
+.cube-face.left {
+    transform: rotateY(-90deg) translateZ(30px);
+}
+
+.cube-face.top {
+    transform: rotateX(90deg) translateZ(30px);
+}
+
+.cube-face.bottom {
+    transform: rotateX(-90deg) translateZ(30px);
+}
+
+@keyframes spin {
+    0% {
+        transform: rotateX(0) rotateY(0);
+    }
+    100% {
+        transform: rotateX(360deg) rotateY(360deg);
+    }
+}
+
+.loading-text {
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+.loading-progress {
+    width: 100%;
+    height: 6px;
+    background-color: var(--dark-surface);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--primary);
+    border-radius: 10px;
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
+/* Hide loading screen when JavaScript is disabled */
+.no-js #loading-screen {
+    display: none;
+}
+
+.skip-loading-button {
+    display: inline-block;
+    background: var(--primary);
+    color: var(--dark-bg);
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    margin-top: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.skip-loading-button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.skip-loading-button:active {
+    transform: translateY(0);
 } 

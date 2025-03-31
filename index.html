@@ -16,6 +16,32 @@
     <link rel="icon" type="image/png" href="images/favicon.png" />
   </head>
   <body>
+    <!-- 3D Loading Screen -->
+    <div id="loading-screen">
+      <div class="loading-content">
+        <div class="loading-logo">KK</div>
+        <div class="loading-spinner">
+          <div class="cube-wrapper">
+            <div class="cube">
+              <div class="cube-face front"></div>
+              <div class="cube-face back"></div>
+              <div class="cube-face right"></div>
+              <div class="cube-face left"></div>
+              <div class="cube-face top"></div>
+              <div class="cube-face bottom"></div>
+            </div>
+          </div>
+        </div>
+        <div class="loading-text">Loading 3D Experience...</div>
+        <div class="loading-progress">
+          <div class="progress-bar"></div>
+        </div>
+        <button id="skip-loading" class="skip-loading-button">
+          Skip Loading
+        </button>
+      </div>
+    </div>
+
     <header id="header">
       <nav id="navbar">
         <div class="container">
@@ -719,5 +745,11 @@
     </footer>
 
     <script src="js/script.js"></script>
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.162.0/three.min.js"></script>
+    <!-- GSAP for smoother animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+    <!-- Our custom 3D animations -->
+    <script src="js/3d-animations.js"></script>
   </body>
 </html>

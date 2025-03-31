@@ -1,0 +1,2 @@
+Please replace this with a real profile picture named "profile.jpg" in this directory.
+The recommended image size is 600x600 pixels for optimal display. 
