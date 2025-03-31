@@ -55,6 +55,8 @@ img {
 
 section {
     padding: 100px 0;
+    position: relative;
+    z-index: 1;
 }
 
 .section-title {
@@ -190,12 +192,14 @@ section {
 
 /* ===== HERO SECTION ===== */
 .hero {
-    height: 100vh;
+    min-height: 100vh;
+    height: auto;
     display: flex;
     align-items: center;
     background-color: var(--dark-bg);
     position: relative;
     overflow: hidden;
+    padding: 80px 0;
 }
 
 .hero::before {
@@ -215,7 +219,7 @@ section {
     justify-content: space-between;
     gap: 50px;
     position: relative;
-    z-index: 1;
+    z-index: 2;
 }
 
 .hero-image {
@@ -874,7 +878,7 @@ section {
         text-align: center;
         box-shadow: var(--shadow);
         transition: all 0.3s ease-in-out;
-        z-index: 10;
+        z-index: 9990;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -883,6 +887,7 @@ section {
     
     .nav-links.active {
         top: 0;
+        z-index: 9999;
     }
     
     .nav-links li {
@@ -939,7 +944,8 @@ section {
     }
     
     .hamburger {
-        display: block;
+        z-index: 10000;
+        position: relative;
     }
     
     .hamburger.active .bar:nth-child(1) {
@@ -980,6 +986,32 @@ section {
     
     .project-info {
         transform: none !important;
+    }
+    
+    /* Mobile specific header fixes */
+    body {
+        padding-top: 70px;
+    }
+    
+    /* Fix hero section to avoid hidden content */
+    .hero {
+        margin-top: -70px;
+        padding-top: 90px; /* Increased padding to ensure content is visible */
+        min-height: 100vh;
+        height: auto;
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* Fix z-index issues that might cause black screens */
+    .particle-canvas, .hero-background {
+        z-index: 0 !important;
+    }
+    
+    /* Make sure section titles are visible */
+    .section-title {
+        position: relative;
+        z-index: 2;
     }
 }
 

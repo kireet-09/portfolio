@@ -9,19 +9,28 @@ const loadingScreenHandler = {
   isComplete: false,
   totalAssets: 6, // Total number of "assets" to load (including scripts, models, etc.)
   loadedAssets: 0,
-  maxLoadingTime: 5000, // Reduced to 5 seconds
+  maxLoadingTime: 3000, // Reduced to 3 seconds for better UX
   loadingTimeout: null,
   
   init() {
     this.loadingScreen = document.getElementById('loading-screen');
     this.progressBar = document.querySelector('.progress-bar');
     
-    if (!this.loadingScreen || !this.progressBar) return;
+    if (!this.loadingScreen || !this.progressBar) {
+      // If the loading screen element isn't found, proceed immediately
+      this.isComplete = true;
+      console.log("Loading screen elements not found, proceeding immediately");
+      initSimplified3DEffects();
+      return;
+    }
     
     // Set initial progress
     this.updateProgress(0);
     
-    // Set a maximum loading time to prevent indefinite loading
+    // Set a maximum loading time to prevent indefinite loading (shorter on mobile)
+    const isMobile = window.innerWidth <= 768;
+    this.maxLoadingTime = isMobile ? 2000 : 3000; // Even shorter timeout on mobile
+    
     this.loadingTimeout = setTimeout(() => {
       console.log("Loading timeout reached, forcing completion");
       this.forceCompleteLoading();
@@ -36,13 +45,10 @@ const loadingScreenHandler = {
       });
     }
 
-    // Automatically progress loading
-    setTimeout(() => this.assetLoaded(1), 500);
-    setTimeout(() => this.assetLoaded(1), 1000);
-    setTimeout(() => this.assetLoaded(1), 1500);
-    setTimeout(() => this.assetLoaded(1), 2000);
-    setTimeout(() => this.assetLoaded(1), 2500);
-    setTimeout(() => this.assetLoaded(1), 3000);
+    // Automatically progress loading faster
+    setTimeout(() => this.assetLoaded(2), 500);
+    setTimeout(() => this.assetLoaded(2), 1000);
+    setTimeout(() => this.assetLoaded(2), 1500);
   },
   
   assetLoaded(count = 1) {
@@ -186,14 +192,24 @@ function createSimpleParticleBackground() {
   canvas.style.height = '100%';
   canvas.style.zIndex = '1';
   canvas.style.opacity = '0.7';
+  canvas.style.pointerEvents = 'none'; // Ensure canvas doesn't block interactions
   heroSection.prepend(canvas);
   
   const ctx = canvas.getContext('2d');
   
   // Set canvas size
   function resizeCanvas() {
-    canvas.width = heroSection.offsetWidth;
-    canvas.height = heroSection.offsetHeight;
+    // Get the actual dimensions of the hero section
+    const heroRect = heroSection.getBoundingClientRect();
+    canvas.width = heroRect.width;
+    canvas.height = heroRect.height;
+    
+    // Check if we're on mobile and reduce the number of particles
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile && particles.length > 25) {
+      // Reduce particle count on mobile
+      particles.length = 25;
+    }
   }
   
   resizeCanvas();
