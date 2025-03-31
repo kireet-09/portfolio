@@ -1,6 +1,59 @@
 // 3D Animations for Portfolio Website
 
 // =================================
+// Mobile Detection and Emergency Fix for Black Screen
+// =================================
+const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+
+// Emergency fix for black screen on mobile
+if (isMobileDevice) {
+  console.log("Mobile device detected, applying emergency fixes");
+  
+  // Make sure content is visible after a short delay
+  setTimeout(() => {
+    // Force all sections to be visible
+    document.querySelectorAll('section').forEach(section => {
+      section.style.visibility = 'visible';
+      section.style.opacity = '1';
+      section.style.zIndex = '10';
+      section.style.position = 'relative';
+      section.style.backgroundColor = '#121212';
+    });
+    
+    // Force body to be visible
+    document.body.style.backgroundColor = '#121212';
+    document.body.style.color = '#ffffff';
+    document.body.style.visibility = 'visible';
+    document.body.style.opacity = '1';
+    
+    // Hide any loading screen immediately
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen && loadingScreen.parentNode) {
+      loadingScreen.parentNode.removeChild(loadingScreen);
+    }
+    
+    // Initialize very simple effects only
+    initVerySimpleEffects();
+  }, 500);
+}
+
+// Very simplified effects for problematic mobile devices
+function initVerySimpleEffects() {
+  // Simple hover effects only - no 3D transformations
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.style.transform = 'translateY(-5px)';
+      card.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)';
+    });
+    
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'translateY(0)';
+      card.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.2)';
+    });
+  });
+}
+
+// =================================
 // Loading Screen Handler
 // =================================
 const loadingScreenHandler = {
@@ -13,6 +66,22 @@ const loadingScreenHandler = {
   loadingTimeout: null,
   
   init() {
+    // On mobile devices, skip the loading process entirely
+    if (isMobileDevice) {
+      console.log("Mobile device detected, skipping loading screen");
+      this.isComplete = true;
+      
+      // Remove loading screen if it exists
+      const loadingScreen = document.getElementById('loading-screen');
+      if (loadingScreen && loadingScreen.parentNode) {
+        loadingScreen.parentNode.removeChild(loadingScreen);
+      }
+      
+      // Initialize very simple effects instead
+      initVerySimpleEffects();
+      return;
+    }
+    
     this.loadingScreen = document.getElementById('loading-screen');
     this.progressBar = document.querySelector('.progress-bar');
     
