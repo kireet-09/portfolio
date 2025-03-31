@@ -120,6 +120,7 @@ section {
     z-index: 1000;
     background-color: transparent;
     transition: var(--transition);
+    height: 70px; /* Fixed height for consistency */
 }
 
 #header.scrolled {
@@ -868,12 +869,36 @@ section {
         padding: 30px 0;
         text-align: center;
         box-shadow: var(--shadow);
-        transition: var(--transition);
+        transition: all 0.3s ease-in-out;
         z-index: 10;
+        height: auto;
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
     }
     
     .nav-links.active {
         top: 70px;
+        height: auto;
+    }
+    
+    .nav-links li {
+        margin: 15px 0;
+    }
+    
+    .nav-links a {
+        display: block;
+        padding: 10px;
+    }
+    
+    .nav-links a::after {
+        display: none;
+    }
+    
+    .nav-links a:hover,
+    .nav-links a.active {
+        color: var(--primary);
+        background-color: rgba(0, 229, 255, 0.1);
+        border-radius: 5px;
     }
     
     .hamburger {

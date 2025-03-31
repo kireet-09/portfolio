@@ -35,6 +35,13 @@ window.addEventListener('scroll', () => {
 hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('active');
     navLinksContainer.classList.toggle('active');
+    
+    // Toggle body scroll when menu is open/closed
+    if (navLinksContainer.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
+    }
 });
 
 // Close mobile menu when a nav link is clicked
@@ -42,6 +49,7 @@ navLinks.forEach(link => {
     link.addEventListener('click', () => {
         hamburger.classList.remove('active');
         navLinksContainer.classList.remove('active');
+        document.body.style.overflow = ''; // Restore scrolling
     });
 });
 
